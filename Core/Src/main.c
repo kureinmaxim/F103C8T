@@ -215,7 +215,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   RCC->CSR |= RCC_CSR_RMVF;
 
-  // printf("MCU Reset Cause: 0x%08lX\r\n", reset_cause);
+  log_printf("Rst:0x%08lX\r\n", reset_cause);
   HAL_Delay(1000);
   log_printf("Main started, time: %lu ms\r\n", HAL_GetTick());
 
@@ -479,9 +479,27 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 	printf_uart3("Default Task running...\r\n");
+  uint32_t diag_divider = 0;
   for (;;) {
-	HAL_Delay(1000);
-	printf_uart3("Tick: %lu\r\n", HAL_GetTick());
+	vTaskDelay(pdMS_TO_TICKS(1000));
+	printf_uart3("Tick:%lu\r\n", HAL_GetTick());
+
+	/* Lightweight runtime diagnostics every 5 seconds. */
+	if (++diag_divider >= 5) {
+		diag_divider = 0;
+
+		size_t free_heap = xPortGetFreeHeapSize();
+		size_t min_heap = xPortGetMinimumEverFreeHeapSize();
+		UBaseType_t dflt_stack = uxTaskGetStackHighWaterMark((TaskHandle_t)defaultTaskHandle);
+		UBaseType_t led_stack  = uxTaskGetStackHighWaterMark((TaskHandle_t)LedTaskHandle);
+		UBaseType_t uart_stack = uxTaskGetStackHighWaterMark((TaskHandle_t)Uart1TaskHandle);
+		size_t dflt_stack_b = ((size_t)dflt_stack) * sizeof(StackType_t);
+		size_t led_stack_b  = ((size_t)led_stack) * sizeof(StackType_t);
+		size_t uart_stack_b = ((size_t)uart_stack) * sizeof(StackType_t);
+
+		printf_uart3("Heap:%u/%u\r\n", (unsigned int)free_heap, (unsigned int)min_heap);
+		printf_uart3("StkB:%u,%u,%u\r\n", (unsigned int)dflt_stack_b, (unsigned int)led_stack_b, (unsigned int)uart_stack_b);
+	}
   }
   /*for(;;)
   {

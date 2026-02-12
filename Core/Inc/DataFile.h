@@ -2,7 +2,7 @@
 #ifndef INC_DATAFILE_H_
 #define INC_DATAFILE_H_
 
-#define UART_TIMEOUT_MS 200                // Data reception timeout
+#define UART_TIMEOUT_MS 20               // Data reception timeout
 #define UART_BUF_SIZE   100                // Maximum command size
 #define polynomial      0xA001
 

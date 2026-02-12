@@ -6,10 +6,34 @@
 
 ## 1) Какие UART используются
 
-- `USART1` (`PA9` TX, `PA10` RX, 38400 бод) - командный интерфейс.
-- `USART3` (`PB10` TX, `PB11` RX, 115200 бод) - отладочный/лог-канал.
+- `USART1` (`PA9` TX, `PA10` RX) - командный интерфейс.
+- `USART3` (`PB10` TX, `PB11` RX) - отладочный/лог-канал.
 
 Основная логика протокола находится на `USART1`.
+
+### Полные настройки UART в этом проекте
+
+Для `USART1`:
+- скорость: `38400`;
+- длина слова: `8 бит` (`UART_WORDLENGTH_8B`);
+- стоп-биты: `1` (`UART_STOPBITS_1`);
+- четность: `нет` (`UART_PARITY_NONE`);
+- режим: `TX/RX` (`UART_MODE_TX_RX`);
+- аппаратный flow control: `нет` (`UART_HWCONTROL_NONE`);
+- oversampling: `x16` (`UART_OVERSAMPLING_16`);
+- прерывание: включено (`USART1_IRQn`), прием по `HAL_UART_Receive_IT(..., 1 byte)`.
+
+Для `USART3`:
+- скорость: `115200`;
+- длина слова: `8 бит` (`UART_WORDLENGTH_8B`);
+- стоп-биты: `1` (`UART_STOPBITS_1`);
+- четность: `нет` (`UART_PARITY_NONE`);
+- режим: `TX/RX` в `MX_USART3_UART_Init` (фактически в проекте используется в основном TX для логов);
+- аппаратный flow control: `нет` (`UART_HWCONTROL_NONE`);
+- oversampling: `x16` (`UART_OVERSAMPLING_16`);
+- IRQ `USART3` в текущей реализации не используется для приема.
+
+Итого по обоим каналам: классический формат `8N1` (8 data bits, No parity, 1 stop bit).
 
 ---
 
