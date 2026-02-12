@@ -1,0 +1,15 @@
+# Build output
+Debug/
+Release/
+
+# STM32CubeIDE metadata/cache
+.settings/language.settings.xml
+
+# OS/editor temporary files
+*.tmp
+*.log
+*.bak
+*.swp
+Thumbs.db
+.DS_Store
+
