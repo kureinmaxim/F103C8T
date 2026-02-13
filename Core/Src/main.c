@@ -63,7 +63,7 @@ osThreadId_t defaultTaskHandle;
 
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 512,
+  .stack_size = 1024,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -490,15 +490,26 @@ void StartDefaultTask(void *argument)
 
 		size_t free_heap = xPortGetFreeHeapSize();
 		size_t min_heap = xPortGetMinimumEverFreeHeapSize();
+		size_t total_heap = (size_t)configTOTAL_HEAP_SIZE;
 		UBaseType_t dflt_stack = uxTaskGetStackHighWaterMark((TaskHandle_t)defaultTaskHandle);
 		UBaseType_t led_stack  = uxTaskGetStackHighWaterMark((TaskHandle_t)LedTaskHandle);
 		UBaseType_t uart_stack = uxTaskGetStackHighWaterMark((TaskHandle_t)Uart1TaskHandle);
 		size_t dflt_stack_b = ((size_t)dflt_stack) * sizeof(StackType_t);
 		size_t led_stack_b  = ((size_t)led_stack) * sizeof(StackType_t);
 		size_t uart_stack_b = ((size_t)uart_stack) * sizeof(StackType_t);
+		size_t dflt_total_b = (size_t)defaultTask_attributes.stack_size;
+		size_t led_total_b  = (size_t)LedTask_attributes.stack_size;
+		size_t uart_total_b = (size_t)Uart1Task_attributes.stack_size;
+		unsigned int heap_used_pct = (total_heap > 0U) ? (unsigned int)(((total_heap - free_heap) * 100U) / total_heap) : 0U;
+		unsigned int heap_peak_used_pct = (total_heap > 0U) ? (unsigned int)(((total_heap - min_heap) * 100U) / total_heap) : 0U;
+		unsigned int dflt_used_pct = (dflt_total_b > 0U) ? (unsigned int)(((dflt_total_b - dflt_stack_b) * 100U) / dflt_total_b) : 0U;
+		unsigned int led_used_pct  = (led_total_b > 0U) ? (unsigned int)(((led_total_b - led_stack_b) * 100U) / led_total_b) : 0U;
+		unsigned int uart_used_pct = (uart_total_b > 0U) ? (unsigned int)(((uart_total_b - uart_stack_b) * 100U) / uart_total_b) : 0U;
 
-		printf_uart3("Heap:%u/%u\r\n", (unsigned int)free_heap, (unsigned int)min_heap);
-		printf_uart3("StkB:%u,%u,%u\r\n", (unsigned int)dflt_stack_b, (unsigned int)led_stack_b, (unsigned int)uart_stack_b);
+		printf_uart3("HeapB F:%u Min:%u Tot:%u\r\n", (unsigned int)free_heap, (unsigned int)min_heap, (unsigned int)total_heap);
+		printf_uart3("HeapU now:%u%% peak:%u%%\r\n", heap_used_pct, heap_peak_used_pct);
+		printf_uart3("StkB free D:%u L:%u U:%u\r\n", (unsigned int)dflt_stack_b, (unsigned int)led_stack_b, (unsigned int)uart_stack_b);
+		printf_uart3("StkU %% D:%u L:%u U:%u\r\n", dflt_used_pct, led_used_pct, uart_used_pct);
 	}
   }
   /*for(;;)

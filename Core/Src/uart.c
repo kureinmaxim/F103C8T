@@ -13,7 +13,7 @@ volatile uint8_t uart1_rx_head = 0;           // Головной указате
 volatile uint8_t uart1_rx_tail = 0;           // Хвостовой указатель
 
 void log_printf(const char *format, ...) {
-    char buffer[32];
+    char buffer[128];
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, sizeof(buffer), format, args);
@@ -23,13 +23,20 @@ void log_printf(const char *format, ...) {
 
 void printf_uart3(const char *format, ...)
 {
-  char buffer[32];
+  char buffer[128];
   va_list args;
   va_start(args, format);
   int length = vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
 
-  HAL_UART_Transmit(&huart3, (uint8_t*)buffer, length, 100);
+  size_t tx_len = 0;
+  if (length > 0) {
+      tx_len = (size_t)length;
+      if (tx_len >= sizeof(buffer)) {
+          tx_len = sizeof(buffer) - 1;
+      }
+  }
+  HAL_UART_Transmit(&huart3, (uint8_t*)buffer, tx_len, 100);
 }
 
 int _write(int file, char *ptr, int len) {
