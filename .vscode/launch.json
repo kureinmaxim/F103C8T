@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug (OpenOCD)",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/Debug/primGPT.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "runToEntryPoint": "main",
+      "servertype": "openocd",
+      "configFiles": ["primGPT Debug.cfg"],
+      "searchDir": ["${workspaceFolder}"],
+      "preLaunchTask": "Build",
+      "showDevDebugOutput": "raw",
+      "device": "STM32F103C8",
+      "interface": "swd",
+      "svdFile": "${workspaceFolder}/STM32F103.svd"
+    },
+    {
+      "name": "Attach (OpenOCD)",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/Debug/primGPT.elf",
+      "request": "attach",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "configFiles": ["primGPT Debug.cfg"],
+      "searchDir": ["${workspaceFolder}"],
+      "showDevDebugOutput": "raw",
+      "device": "STM32F103C8",
+      "interface": "swd",
+      "svdFile": "${workspaceFolder}/STM32F103.svd"
+    }
+  ]
+}
