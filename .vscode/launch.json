@@ -14,8 +14,7 @@
       "preLaunchTask": "Build",
       "showDevDebugOutput": "raw",
       "device": "STM32F103C8",
-      "interface": "swd",
-      "svdFile": "${workspaceFolder}/STM32F103.svd"
+      "interface": "swd"
     },
     {
       "name": "Attach (OpenOCD)",
@@ -28,8 +27,7 @@
       "searchDir": ["${workspaceFolder}"],
       "showDevDebugOutput": "raw",
       "device": "STM32F103C8",
-      "interface": "swd",
-      "svdFile": "${workspaceFolder}/STM32F103.svd"
+      "interface": "swd"
     }
   ]
 }
