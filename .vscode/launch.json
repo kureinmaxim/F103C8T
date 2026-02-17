@@ -10,11 +10,15 @@
       "runToEntryPoint": "main",
       "servertype": "openocd",
       "configFiles": ["primGPT Debug.cfg"],
-      "searchDir": ["${workspaceFolder}"],
+      "searchDir": [
+        "${workspaceFolder}",
+        "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951/resources/openocd/st_scripts"
+      ],
       "preLaunchTask": "Build",
       "showDevDebugOutput": "raw",
       "device": "STM32F103C8",
-      "interface": "swd"
+      "interface": "swd",
+      "rtos": "FreeRTOS"
     },
     {
       "name": "Attach (OpenOCD)",
@@ -24,7 +28,10 @@
       "type": "cortex-debug",
       "servertype": "openocd",
       "configFiles": ["primGPT Debug.cfg"],
-      "searchDir": ["${workspaceFolder}"],
+      "searchDir": [
+        "${workspaceFolder}",
+        "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951/resources/openocd/st_scripts"
+      ],
       "showDevDebugOutput": "raw",
       "device": "STM32F103C8",
       "interface": "swd"

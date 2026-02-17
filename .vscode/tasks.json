@@ -6,6 +6,11 @@
       "type": "shell",
       "command": "make",
       "args": ["-C", "Debug", "all", "-j8"],
+      "options": {
+        "env": {
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
+        }
+      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -21,6 +26,11 @@
       "type": "shell",
       "command": "make",
       "args": ["-C", "Debug", "clean"],
+      "options": {
+        "env": {
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
+        }
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -39,11 +49,18 @@
       "type": "shell",
       "command": "openocd",
       "args": [
+        "-s",
+        "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\\resources\\openocd\\st_scripts",
         "-f",
         "primGPT Debug.cfg",
         "-c",
         "program Debug/primGPT.elf verify reset exit"
       ],
+      "options": {
+        "env": {
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\\tools\\bin;${env:PATH}"
+        }
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -61,6 +78,11 @@
       "type": "shell",
       "command": "arm-none-eabi-size",
       "args": ["Debug/primGPT.elf"],
+      "options": {
+        "env": {
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;${env:PATH}"
+        }
+      },
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
