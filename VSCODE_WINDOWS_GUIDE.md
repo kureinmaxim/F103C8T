@@ -55,14 +55,20 @@ code --install-extension marus25.cortex-debug
 
 Если хотите использовать toolchain в любом терминале:
 
-1. Откройте **Параметры системы** — **Переменные среды**
-2. Найдите переменную `Path` и добавьте пути:
+1. Откройте **Переменные среды** (любым из способов):
+   - `Win+R` → введите `systempropertiesadvanced` → Enter → кнопка **"Переменные среды..."**
+   - Или: `Win` → начните набирать `переменные среды` → выберите "Изменение системных переменных среды"
+2. В секции **"Системные переменные"** найдите переменную `Path` → нажмите **"Изменить..."**
+3. Нажмите **"Создать"** и добавьте по одной строке:
 
 ```
-C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\tools\bin
+C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin
 C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\tools\bin
 C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\tools\bin
 ```
+
+4. Нажмите **OK** во всех окнах
+5. **Перезапустите Cursor/VS Code** — иначе новый PATH не подхватится
 
 > Пути зависят от версии STM32CubeIDE. Проверьте актуальные пути в `C:\ST\`.
 
@@ -125,7 +131,7 @@ F103C8T/
 
 ### Через терминал VS Code
 
-> **Важно:** Команда `make` и toolchain не в системном PATH. Перед использованием терминала вручную установите PATH в текущей сессии PowerShell:
+> **Важно:** Если команда `make` и toolchain не в системном PATH. Перед использованием терминала вручную установите PATH в текущей сессии PowerShell:
 
 ```powershell
 $env:PATH = "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\tools\bin;C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin;$env:PATH"
@@ -228,7 +234,7 @@ Ctrl+Shift+P — `Tasks: Run Task` — `Flash`.
       "args": ["-C", "Debug", "all", "-j8"],
       "options": {
         "env": {
-          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
         }
       },
       "group": {
@@ -248,7 +254,7 @@ Ctrl+Shift+P — `Tasks: Run Task` — `Flash`.
       "args": ["-C", "Debug", "clean"],
       "options": {
         "env": {
-          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\\tools\\bin;${env:PATH}"
         }
       },
       "problemMatcher": [],
@@ -298,7 +304,7 @@ Ctrl+Shift+P — `Tasks: Run Task` — `Flash`.
       "args": ["Debug/primGPT.elf"],
       "options": {
         "env": {
-          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130\\tools\\bin;${env:PATH}"
+          "PATH": "C:\\ST\\STM32CubeIDE_1.17.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\\tools\\bin;${env:PATH}"
         }
       },
       "problemMatcher": [],
@@ -330,15 +336,15 @@ Ctrl+Shift+P — `Tasks: Run Task` — `Flash`.
                 "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include",
                 "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
                 "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3",
-                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/arm-none-eabi/include",
-                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/arm-none-eabi/include/sys",
-                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/arm-none-eabi/include/newlib-nano"
+                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/arm-none-eabi/include",
+                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/arm-none-eabi/include/sys",
+                "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/arm-none-eabi/include/newlib-nano"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
                 "STM32F103xB"
             ],
-            "compilerPath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/arm-none-eabi-gcc.exe",
+            "compilerPath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/arm-none-eabi-gcc.exe",
             "cStandard": "c11",
             "cppStandard": "c++14",
             "intelliSenseMode": "gcc-arm"
