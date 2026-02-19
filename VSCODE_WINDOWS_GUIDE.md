@@ -125,6 +125,14 @@ F103C8T/
 
 ### Через терминал VS Code
 
+> **Важно:** Команда `make` и toolchain не в системном PATH. Перед использованием терминала вручную установите PATH в текущей сессии PowerShell:
+
+```powershell
+$env:PATH = "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\tools\bin;C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin;$env:PATH"
+```
+
+После этого команды работают до закрытия терминала:
+
 ```bash
 # Полная сборка
 make -C Debug all
@@ -471,12 +479,16 @@ openocd -s "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.
 3. Или используйте `tasks_windows.json` который включает пути автоматически
 4. Перезапустите VS Code после изменения PATH
 
-### Проблема: `make: command not found`
+### Проблема: `make: command not found` / `make is not recognized`
 
-**Решение:**
-- Установите Make через STM32CubeIDE (уже включён) и добавьте в PATH
-- Или установите через [MinGW](https://www.mingw-w64.org/)
-- Или используйте `tasks_windows.json`
+**Быстрое решение** — установить PATH в текущей сессии PowerShell:
+```powershell
+$env:PATH = "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845\tools\bin;C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin;$env:PATH"
+```
+
+**Другие варианты:**
+- Используйте `Ctrl+Shift+B` — tasks.json подставляет PATH автоматически
+- Добавьте пути к toolchain в системный PATH (см. раздел "Настройка окружения")
 
 ### Проблема: `openocd` не находит ST-Link
 
