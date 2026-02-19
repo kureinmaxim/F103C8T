@@ -9,6 +9,8 @@
       "type": "cortex-debug",
       "runToEntryPoint": "main",
       "servertype": "openocd",
+      "armToolchainPath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin",
+      "serverpath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620/tools/bin/openocd.exe",
       "configFiles": ["primGPT Debug.cfg"],
       "searchDir": [
         "${workspaceFolder}",
@@ -27,6 +29,8 @@
       "request": "attach",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "armToolchainPath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin",
+      "serverpath": "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620/tools/bin/openocd.exe",
       "configFiles": ["primGPT Debug.cfg"],
       "searchDir": [
         "${workspaceFolder}",
