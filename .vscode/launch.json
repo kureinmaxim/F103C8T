@@ -18,7 +18,8 @@
       ],
       "preLaunchTask": "Build",
       "showDevDebugOutput": "parsed",
-      "device": "STM32F103C8"
+      "device": "STM32F103C8",
+      "svdFile": "${workspaceFolder}/STM32F103.svd"
     },
     {
       "name": "Attach (OpenOCD)",
@@ -35,7 +36,8 @@
         "C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951/resources/openocd/st_scripts"
       ],
       "showDevDebugOutput": "parsed",
-      "device": "STM32F103C8"
+      "device": "STM32F103C8",
+      "svdFile": "${workspaceFolder}/STM32F103.svd"
     }
   ]
 }

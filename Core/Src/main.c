@@ -110,7 +110,7 @@ void LedTask(void *pvParameters) {
 void Uart1Task(void *pvParameters) {
     uint8_t command[UART_BUF_SIZE];
     uint8_t ok[2] = {ID_BU, 0x00}; 
-    uint8_t *ok_ptr;
+    uint8_t ok_buf[4];
     uint8_t index = 0;
     uint16_t crc = 0;
     char receivedChar;
@@ -155,9 +155,9 @@ void Uart1Task(void *pvParameters) {
                         break;
                 }                
             }
-            ok_ptr = calculate_crc_for_2_bytes(ok);
+            calculate_crc_for_2_bytes(ok, ok_buf);
             for (int i = 0; i < 4; i++) {
-                uart1_put_ch(ok_ptr[i]);
+                uart1_put_ch(ok_buf[i]);
             }
 
             //HAL_UART_Transmit(&huart1, ok_ptr, 4, 100); // 100 мс таймаут
@@ -464,7 +464,20 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+{
+  (void)xTask;
+  log_printf("!!! Stack overflow: %s\r\n", pcTaskName);
+  __disable_irq();
+  while (1) {}
+}
 
+void vApplicationMallocFailedHook(void)
+{
+  log_printf("!!! Malloc failed\r\n");
+  __disable_irq();
+  while (1) {}
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */

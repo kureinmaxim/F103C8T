@@ -38,12 +38,11 @@ int process_crc(uint8_t *data, uint16_t length, bool checkFlag) {
 }
 
 /*********************************************************************
-* Calculate CRC16 for 2 bytes and return pointer to 4-byte array
-* (2 bytes data + 2 bytes CRC).
-* NOTE: Uses a static buffer, function is not reentrant.
+* Calculate CRC16 for 2 bytes and write 4-byte result
+* (2 bytes data + 2 bytes CRC) into caller-provided buffer.
+* result must point to at least 4 bytes.
 *********************************************************************/
-uint8_t* calculate_crc_for_2_bytes(const uint8_t *data) {
-    static uint8_t result[4]; // Статический буфер для результата (не реентерабельно!)
+void calculate_crc_for_2_bytes(const uint8_t *data, uint8_t *result) {
     uint16_t crc;
 
     result[0] = data[0];
@@ -51,9 +50,6 @@ uint8_t* calculate_crc_for_2_bytes(const uint8_t *data) {
 
     crc = crc16(data, 2);
 
-    // Добавляем CRC в конец (младший байт сначала)
     result[2] = crc & 0xFF;
     result[3] = (crc >> 8) & 0xFF;
-
-    return result; // Возвращаем указатель на статический буфер
 }

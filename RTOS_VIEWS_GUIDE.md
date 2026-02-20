@@ -84,14 +84,14 @@ Ctrl+Shift+D — откроется панель Run and Debug
 | **State** | Состояние: `Running` / `Blocked` / `Ready` / `Suspended` |
 | **Priority** | Приоритет (Normal=1, AboveNormal=2) |
 | **Stack Used** | Использовано стека в байтах |
-| **Stack Size** | Размер стека: defaultTask=512B, LedTask=512B, **Uart1Task=2048B** |
+| **Stack Size** | Размер стека: defaultTask=1024B, LedTask=512B, **Uart1Task=2048B** |
 | **Stack Free** | Свободно байт (важно следить!) |
 
 **Пороги безопасности для этого проекта (20KB RAM):**
 
 | Задача | Стек | Тревога если свободно менее |
 |--------|------|-----------------------------|
-| defaultTask | 512B | < 128B |
+| defaultTask | 1024B | < 256B |
 | LedTask | 512B | < 128B |
 | Uart1Task | 2048B | < 256B |
 
@@ -112,7 +112,7 @@ Ctrl+Shift+D — откроется панель Run and Debug
 
 | Колонка | Описание |
 |---------|----------|
-| **Total** | Всего heap: 14336 байт (14KB) |
+| **Total** | Всего heap: 10240 байт (10KB) |
 | **Free** | Свободно сейчас |
 | **Min Free** | Минимум за всё время работы (watermark) |
 
@@ -191,4 +191,4 @@ Ctrl+Shift+D — откроется панель Run and Debug
 
 ---
 
-*FreeRTOS v10.0.1 · STM32F103C8T6 · 20KB RAM · 14KB heap*
+*FreeRTOS v10.0.1 · STM32F103C8T6 · 20KB RAM · 10KB heap*
