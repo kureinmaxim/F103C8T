@@ -93,7 +93,77 @@ C:\Project\ProjectSTM32\STM32F1\primGPT
 
 ---
 
-## Если что-то не работает
+## OpenOCD: конфигурация и команды
+
+### Рабочая конфигурация проекта
+
+- `primGPT Debug.cfg`:
+  - `source [find interface/stlink-dap.cfg]`
+  - `transport select "dapdirect_swd"`
+  - `set CLOCK_FREQ 4000`
+  - `source [find target/stm32f1x.cfg]`
+
+- OpenOCD binary:
+  - `C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\tools\bin\openocd.exe`
+
+- OpenOCD scripts (`-s`):
+  - `C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\resources\openocd\st_scripts`
+
+### Почему в Cursor падает `find interface/*.cfg`
+
+Причина: OpenOCD запускается, но не знает путь к `st_scripts`.
+
+Симптом: `Can't find interface/stlink-dap.cfg` (или `stlink.cfg`).
+
+Лечение:
+- всегда передавать `-s <.../st_scripts>` в команде OpenOCD;
+- добавить этот же путь в `searchDir` в `.vscode/launch.json`.
+
+### Команды PowerShell
+
+**Проверка конфигурации:**
+
+```powershell
+& "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\tools\bin\openocd.exe" `
+  -s "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\resources\openocd\st_scripts" `
+  -f "primGPT Debug.cfg" `
+  -c "shutdown"
+```
+
+Ожидаемо: OpenOCD стартует и завершится строкой `shutdown command invoked`.
+
+**Прошивка ELF:**
+
+```powershell
+& "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\tools\bin\openocd.exe" `
+  -s "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\resources\openocd\st_scripts" `
+  -f "primGPT Debug.cfg" `
+  -c "program Debug/primGPT.elf verify reset exit"
+```
+
+Ожидаемо: `** Programming Finished **`, `** Verified OK **`, `** Resetting Target **`.
+
+**Поднять GDB server:**
+
+```powershell
+& "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.openocd.win32_2.4.100.202501161620\tools\bin\openocd.exe" `
+  -s "C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\resources\openocd\st_scripts" `
+  -f "primGPT Debug.cfg"
+```
+
+Ожидаемо: `Listening on port 3333 for gdb connections`.
+
+### Чеклист перед прошивкой
+
+1. Папка проекта открыта именно `primGPT`.
+2. `Build` проходит без ошибок.
+3. ST-Link подключен и виден в системе.
+4. Запущена задача `Flash` или `Build & Flash`.
+5. В логе есть `Verified OK`.
+
+---
+
+## Troubleshooting
 
 **IntelliSense не работает:**
 `Ctrl+Shift+P` → `C/C++: Reset IntelliSense Database` → перезапустить Cursor
@@ -101,24 +171,24 @@ C:\Project\ProjectSTM32\STM32F1\primGPT
 **`arm-none-eabi-gcc not found` при сборке:**
 Проверить, что STM32CubeIDE 1.17.0 установлен в `C:\ST\`
 
+**`openocd: command not found`:**
+PATH в `.vscode/tasks.json` должен содержать каталог `...openocd.../tools/bin`, либо запускайте OpenOCD по полному пути (как в примерах выше).
+
 **OpenOCD не видит ST-Link:**
 1. Установить драйверы [STSW-LINK009](https://www.st.com/en/development-tools/stsw-link009.html)
 2. Закрыть STM32CubeIDE (он захватывает ST-Link)
 3. Проверить в Device Manager — ST-Link должен отображаться
-4. Для Cursor важен путь к OpenOCD scripts (`st_scripts`) в `.vscode/tasks*.json` и `.vscode/launch.json`
 
-**`Can't find interface/stlink*.cfg` в Cursor:**
-- Причина: OpenOCD запущен без каталога scripts.
-- В задаче `Flash` должен быть аргумент:
-  - `-s C:\ST\STM32CubeIDE_1.17.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.debug.openocd_2.3.200.202510310951\resources\openocd\st_scripts`
-- В `launch.json` этот же каталог должен быть добавлен в `searchDir`.
-- В `primGPT Debug.cfg` используется:
-  - `source [find interface/stlink-dap.cfg]`
-  - `transport select "dapdirect_swd"`
-  - `set CLOCK_FREQ 4000`
+**`Can't find interface/stlink*.cfg`:**
+1. В задаче `Flash` должен быть аргумент `-s ...\st_scripts`
+2. В `launch.json` добавить этот путь в `searchDir`
+3. В `primGPT Debug.cfg` указан `source [find interface/stlink-dap.cfg]`
 
 **Отладчик не останавливается на breakpoint:**
 Убедиться, что прошивка актуальна — запустить `Build & Flash` перед `F5`
+
+**Скорость SWD снижена (`requested 8000, using 4000`):**
+Для этого проекта уже выставлено `set CLOCK_FREQ 4000`, предупреждения быть не должно.
 
 ---
 
