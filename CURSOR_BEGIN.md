@@ -187,6 +187,9 @@ PATH в `.vscode/tasks.json` должен содержать каталог `...
 **Отладчик не останавливается на breakpoint:**
 Убедиться, что прошивка актуальна — запустить `Build & Flash` перед `F5`
 
+**`A serious error occurred with gdb` при запуске отладки:**
+Самая частая причина — слишком много breakpoints. STM32F103 (Cortex-M3) имеет только **6 аппаратных breakpoints**, а `runToEntryPoint: "main"` занимает 1 слот. Максимум **5 breakpoints** в редакторе. Отключите лишние (снимите чекбоксы в панели BREAKPOINTS). Подробнее — в [DEBUG_GUIDE.md](DEBUG_GUIDE.md#лимит-аппаратных-breakpoints).
+
 **Скорость SWD снижена (`requested 8000, using 4000`):**
 Для этого проекта уже выставлено `set CLOCK_FREQ 4000`, предупреждения быть не должно.
 

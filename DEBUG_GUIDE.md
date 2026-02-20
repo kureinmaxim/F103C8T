@@ -317,10 +317,30 @@ if (++diag_divider >= 5) {  ← Условие: diag_divider == 5
 1. ПКМ на номере строки — Add Logpoint
 2. Введите: `Tick: {HAL_GetTick()}`
 
+### Лимит аппаратных breakpoints
+
+STM32F103C8 (Cortex-M3) имеет всего **6 аппаратных breakpoints** и **4 watchpoints**. Код выполняется из Flash (read-only), поэтому программные breakpoints невозможны — только аппаратные.
+
+| Ресурс | Лимит | Примечание |
+|--------|-------|-----------|
+| Hardware breakpoints | 6 | Физическое ограничение Cortex-M3 |
+| Hardware watchpoints | 4 | Для отслеживания изменения переменных |
+| `runToEntryPoint` | -1 слот | Автоматический временный breakpoint на `main()` |
+| **Доступно пользователю** | **5** | При включённом `runToEntryPoint: "main"` |
+
+Если превысить лимит, GDB выдаст ошибку:
+```
+Cannot insert hardware breakpoint 6.
+Could not insert hardware breakpoints:
+You may have requested too many hardware breakpoints/watchpoints.
+```
+
+Cortex-Debug покажет: `Error: A serious error occurred with gdb`. Решение — убрать лишние breakpoints.
+
 ### Управление breakpoints
 
 **Панель BREAKPOINTS** (левая часть):
-- Чекбокс — временно включить/выключить
+- Чекбокс — временно включить/выключить (отключённые не занимают аппаратные слоты)
 - Правый клик — Remove — удалить
 - Remove All — удалить все
 
@@ -833,6 +853,18 @@ set CONNECT_UNDER_RESET 0
 
 ---
 
+### Проблема: `A serious error occurred with gdb`
+
+**Самая частая причина:** слишком много breakpoints. STM32F103C8 имеет только **6 аппаратных слотов**, а `runToEntryPoint: "main"` занимает 1 из них. Если в редакторе стоит 6+ точек — GDB не сможет вставить все и вылетит с ошибкой.
+
+**Решение:** убрать лишние breakpoints (максимум 5 при включённом `runToEntryPoint`).
+
+**Другие причины:**
+- `"rtos": "FreeRTOS"` в launch.json — GDB ищет структуры FreeRTOS до инициализации ядра
+- Другая программа (STM32CubeIDE) занимает ST-Link
+
+---
+
 ### Проблема: breakpoint не срабатывает
 
 **Возможные причины:**
@@ -841,6 +873,7 @@ set CONNECT_UNDER_RESET 0
 2. **Оптимизация компилятора:** код удалён как неиспользуемый — убедитесь в Debug режиме (`-O0 -g3`)
 3. **Breakpoint на пустой строке:** установите на строке с кодом
 4. **Прошивка устарела:** пересоберите и прошейте: `Cmd+Shift+B` — Flash
+5. **Превышен лимит breakpoints:** STM32F103 поддерживает максимум 6 (см. [Лимит аппаратных breakpoints](#лимит-аппаратных-breakpoints))
 
 ---
 
